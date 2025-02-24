@@ -7,10 +7,14 @@ def receive():
     while True: # as long as client is receiving messages
         try:
             msg = sock.recv(1024).decode('utf-8')
+            if not msg:
+                break
             msg_list.insert(tkinter.END, msg)
-        except:
-            print("An error occured while receiving a message!")
+        except Exception as e:
+            print(f"An error occurred while receiving a message: {e}")
             break
+    sock.close()
+    window.quit()
 
 def send():
     msg = my_msg.get()
@@ -23,38 +27,46 @@ def send():
 def on_closing():
     my_msg.set("#quit")
     send()
-    sock.close()
-    window.destroy()
+
+def send_with_enter(event):
+    send()
 
 window = Tk()
 window.title("Chat Room Application") 
-window.configure(bg="green")
+window.configure(bg="#2ecc71")
 
-message_frame = Frame(window, height=300, width=500, bg="red")
-message_frame.pack()
+window.protocol("WM_DELETE_WINDOW", on_closing)
+
+message_frame = Frame(window, height=300, width=500, bg="#e74c3c")
+message_frame.pack(padx=5, pady=5)
 
 my_msg=StringVar()
 my_msg.set("")
 
 scroll_bar = Scrollbar(message_frame)
-msg_list = Listbox(message_frame, height=15, width=100, yscrollcommand=scroll_bar.set, bg="white")
-
+msg_list = Listbox(message_frame, height=15, width=60, yscrollcommand=scroll_bar.set, font=("Arial", 12), highlightthickness=0)
 scroll_bar.pack(side=RIGHT, fill=Y)
 msg_list.pack(side=LEFT, fill=BOTH)
 msg_list.pack()
 
-label = Label(window, text="Enter Message", bg="lightgreen", fg="blue", font=("Arial", 12, "italic"))
-label.pack()
+input_frame = Frame(window)
+input_frame.pack()
 
-entry_field = Entry(window, textvar=my_msg, font=("Arial", 12, "italic"), width=50)
-entry_field.pack()
+label = Label(input_frame, text="Message:", bg="#2ecc71", fg="#3498db", font=("Arial", 12, "italic"))
+label.pack(side=tkinter.LEFT)
 
-send_button = Button(window, text="Send", font=("Arial", 12, "bold"), width=10, command=send)
-send_button.pack()
+entry_field = Entry(input_frame, textvar=my_msg, font=("Arial", 12, "italic"), width=50)
+entry_field.bind("<Return>", send_with_enter)
+entry_field.pack(side=tkinter.LEFT)
 
-quit_button = Button(window, text="Quit", font=("Arial", 12, "bold"), width=10, command=on_closing)
-quit_button.pack()
+button_frame = Frame(window)
+button_frame.pack()
 
+send_button = Button(button_frame, text="Send", font=("Arial", 12, "bold"), width=10, command=send)
+send_button.pack(side=tkinter.LEFT)
+
+quit_button = Button(button_frame, text="Quit", font=("Arial", 12, "bold"), width=10, command=on_closing)
+quit_button.pack(side=tkinter.LEFT)
 # connect to server
 Host='localhost'
 Port=8080   
