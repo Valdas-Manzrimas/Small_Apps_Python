@@ -13,7 +13,7 @@ sock.bind((host,port))
 def handle_clients(conn,address):
     name=conn.recv(1024).decode('utf-8')
     welcome =  'Welcome '+name+'! if you want to quit this chat, type #quit'
-    conn.recv(bytes(welcome,'utf-8'))
+    conn.send(bytes(welcome,'utf-8'))
     msg = name + ' has joined the chat'
     broadcast(bytes(msg,'utf-8'))
     clients[conn]=name
@@ -21,13 +21,12 @@ def handle_clients(conn,address):
     while True:
         msg = conn.recv(1024)
         if msg != bytes('#quit','utf-8'):
-            broadcast(msg,name+": ")
+            broadcast(msg,name + ": ")
         else:
-            conn.send(bytes('#quit','utf-8'))
             conn.close()
             del clients[conn]
-            broadcast(bytes(name+' has left the chat','utf-8'))
-            break
+            broadcast(bytes(name +' has left the chat','utf-8'))
+            
 
 def accept_clients_connections(): 
     while True:
