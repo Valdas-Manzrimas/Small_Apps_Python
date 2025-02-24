@@ -1,15 +1,23 @@
-import socket 
+import tkinter
+import socket
+from tkinter import *
+from threading import Thread
 
-host='localhost'
-port=8080
+window = Tk()
+window.title("Chat Room Application") 
+window.configure(bg="green")
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((host,port))
+message_frame = Frame(window, height=300, width=500, bg="red")
+message_frame.pack()
 
-message = sock.recv(1024)
+my_msg=StringVar()
+my_msg.set("")
 
-while message:
-    print('Message', message.decode())
-    message=sock.recv(1024)
+scroll_bar = Scrollbar(message_frame)
+msg_list = Listbox(message_frame, height=15, width=100, yscrollcommand=scroll_bar.set, bg="white")
 
-sock.close()
+scroll_bar.pack(side=RIGHT, fill=Y)
+msg_list.pack(side=LEFT, fill=BOTH)
+msg_list.pack()
+
+mainloop()
