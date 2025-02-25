@@ -2,6 +2,35 @@ from tkinter import *
 import smtplib
 import re
 
+def login():
+    if validate_login():
+        global username
+        global password # global only for learning purposes
+        username = str(entry1.get())
+        password = str(entry2.get())
+        global server
+        # create insecure connection
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+    
+        server.starttls() # make connection secure
+        server.login(username, password)
+
+        f2.pack()
+        btn2.grid()
+        label4['text'] = 'Login successful'
+        root.after(10, root.grid)
+        f1.pack_forget()
+        root.after(10, root.grid)
+        f3.pack()
+        label9.grid_remove()
+        root.after(10, root.grid)
+
+def hide_login_label():
+    f2.pack_forget()
+    f3.pack_forget()
+    root.after(10, root.grid)
+
 root = Tk()
 root.title("Email Application")
 
