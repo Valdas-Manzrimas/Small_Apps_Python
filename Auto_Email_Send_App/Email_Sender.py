@@ -31,6 +31,27 @@ def hide_login_label():
     f3.pack_forget()
     root.after(10, root.grid)
 
+def send_mail():
+    if validate_message():
+        label9.grid_remove()
+        root.after(10, root.grid)
+        receiver = str(entry3.get())
+        subject = str(entry4.get())
+        msgbody = str(entry5.get())
+        msg = 'From: ' + username + '\nTo: ' + receiver + '\nSubject: ' + subject + '\n\n' + msgbody
+        try:
+            server.sendmail(username, receiver, msg)
+            label9.grid()
+            label9['text'] = 'Email sent'
+            root.after(10, label9.grid)
+        except Exception as e:
+            label9.grid()
+            label9['bg'] = 'red'
+            label9['text'] = 'Error occured while sending email'
+            root.after(10, label9.grid)
+
+
+
 root = Tk()
 root.title("Email Application")
 
@@ -82,7 +103,7 @@ entry3.grid(row=1, column=1, pady=5)
 entry4.grid(row=2, column=1, pady=5)
 entry5.grid(row=3, column=1, pady=5, rowspan=3, ipady=10)
 
-btn3 = Button(f3, text="Send", width=10, bg='black', fg='white', command=lambda: send())
+btn3 = Button(f3, text="Send", width=10, bg='black', fg='white', command=lambda: send_mail())
 btn3.grid(row=6, columnspan=3, pady=10)
 
 label9 = Label(f3, width=20, bg='light green', fg='white', font=('calibri', 18, 'bold'))
