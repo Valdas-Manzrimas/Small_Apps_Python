@@ -50,7 +50,65 @@ def send_mail():
             label9['text'] = 'Error occured while sending email'
             root.after(10, label9.grid)
 
+def logout():
+    try:
+        server.quit()
+        f3.pack_forget()
+        f2.pack()
+        label4.grid()
+        label4['text'] = 'Logged Out successful'
+        btn2.grid_remove()
+        f1.pack()
+        entry2.delete(0, END)
+        root.after(10, root.grid)
+    except Exception as e:
+        label4['text'] = 'Error occured while logging out'
 
+def validate_login():
+    email_text = str(entry1.get())
+    pass_text = str(entry2.get())
+    if (email_text == '' or pass_text == ''):
+        f2.pack()
+        label4.grid()
+        label4['text'] = 'Please fill all required fields'
+        btn2.grid_remove()
+        root.after(10, root.grid)
+        return False
+    else:
+        EMAIL_REGEX = re.compile(r"[ˆ@\s]+@[ˆ@\s]+\.[a-zA-Z0-9]+$")
+        if not EMAIL_REGEX.match(email_text):
+            f2.pack()
+            label4.grid()
+            label4['text'] = 'Enter a valid email address'
+            btn2.grid_remove()
+            root.after(10, root.grid)
+            return False
+        else:
+            return True
+
+def validate_message():
+    email_text = str(entry3.get())
+    subject_text = str(entry4.get())
+    msg_text = str(entry5.get())
+    if (email_text == '' or subject_text == '' or msg_text == ''):
+        label9.grid()
+        label9['text'] = 'Please fill all required fields'
+        root.after(10, root.grid)
+        return False
+    else:
+        EMAIL_REGEX = re.compile(r"[ˆ@\s]+@[ˆ@\s]+\.[a-zA-Z0-9]+$")
+        if not EMAIL_REGEX.match(email_text):
+            label9.grid()
+            label9['text'] = 'Enter a valid email address'
+            root.after(10, root.grid)
+            return False
+        elif(len(subject_text < 3) or len(msg_text < 3)):
+            label9.grid()
+            label9['text'] = 'Enter at least 3 characters in subject and message'
+            root.after(10, root.grid)
+            return False
+        else:
+            return True
 
 root = Tk()
 root.title("Email Application")
