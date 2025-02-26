@@ -35,6 +35,20 @@ class Application:
         self.youtubeFileSaveLabel = Label(self.root, text='', font=('Franklin Gothic', 25,), bg="#CCFFF7")
         self.youtubeFileSaveLabel.grid()
 
+        self.youtubeChooseLabel = Label(self.root, text="Choose download type", font=('Variety', 20))
+        self.youtubeChooseLabel.grid()
+
+        self.downloadChoices = [("Audio MP3", 1), ("Video MP4", 2)]
+
+        self.ChoicesVar = StringVar()
+        self.ChoicesVar.set(1)
+
+        for text,mode in self.downloadChoices:
+            self.youtubeChoices = Radiobutton(self.root, text=text, variable=self.ChoicesVar, value=mode)
+            self.youtubeChoices.grid()
+
+
+
     def openDirectory(self):
         self.FolderName = filedialog.askdirectory()
 
