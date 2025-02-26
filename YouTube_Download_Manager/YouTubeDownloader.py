@@ -47,7 +47,26 @@ class Application:
             self.youtubeChoices = Radiobutton(self.root, text=text, variable=self.ChoicesVar, value=mode)
             self.youtubeChoices.grid()
 
+        self.downloadBtn = Button(self.root, text='Download', width=10,font=('Calibri', 15), command=self.checkYoutubeLink)
+        self.downloadBtn.grid(pady=(30, 5))
 
+    def checkYoutubeLink(self):
+        self.matchYoutubeLink = re.match("^https://www.youtube.com/.", self.YouTubeEntryVar.get())
+        if (not self.matchYoutubeLink):
+            self.youtubeEntryError.config(text="Invalid YouTube Link", fg="red")
+        elif (not self.openDirectory):
+            self.youtubeFileSaveLabel.config(text="Please Choose directory", fg="red")
+        elif (self.matchYoutubeLink and self.openDirectory):
+            self.downloadWindow()
+
+    def downloadWindow(self):
+        self.newWindow = Toplevel(self.root)
+        self.root.withdraw()
+        self.newWindow.state("zoomed")
+        self.newWindow.create_rowconfigure(0, weight=0)
+        self.newWindow.create_columnconfigure(0, weight=1)
+
+        self.app = SecondApp(self.newWindow, self.YouTubeEntryVar.get(), self.FolderName, self.ChoicesVar.get())
 
     def openDirectory(self):
         self.FolderName = filedialog.askdirectory()
@@ -57,9 +76,26 @@ class Application:
             return True
         else:
             self.youtubeFileSaveLabel.config(text="Please choose directory",fg="red")
+
+class SecondApp:
+    def __init__(self, downloadWindow, youtubeLink, folderName, choices):
+
+        self.downloadWindow = downloadWindow
+        self.youtubeLink = youtubeLink
+        self.folderName = folderName
+        self.choices = choices
+
+        self.yt = YouTube(self.youtubeLink)
+
+        if (choices=="1"):
+            self.video_type = self.yt.streams.filter(only_audio=True).first()
+            self.maxFileSize = self.video_type.filesize
+
+        if (choices=="2"):
+            self.video_type = self.yt.streams.first()
+            self.maxFileSize = self.video_type.filesize
+
             
-
-
 
 if __name__=="__main__":
     window = Tk()
