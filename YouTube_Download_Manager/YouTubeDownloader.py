@@ -105,7 +105,36 @@ class SecondApp:
         self.progressBar.grid(pady=(50, 0))
         self.progressBar.start()
 
-            
+        threading.Thread(target=self.yt.register_on_progress_callback(self.showProgress)).start()  
+        threading.Thread(target=self.downloadFile).start()
+
+    def downloadFile(self): 
+        
+        if(self.choices=="1"):
+            self.yt.streams.filter(only_audio=True).first().download(self.folderName)
+        if(self.choices=="2"):
+            self.yt.streams.first().download(self.folderName)
+
+    def showProgress(self, streams=None, chunk=None, file_handle=None, bytes_remaining=None):
+
+        self.percentCount = float("%0.2f"% (100-(100*(bytes_remaining/self.maxFileSize))))
+        if (self.percentCount<100):
+            self.loadingPercent.config(text=f"{self.percentCount}%")
+        else:
+            self.progressBar.stop()
+            self.loadingLabel.grid_forget()
+            self.progressBar.grid_forget()
+
+            self.downloadFinished = Label(self.downloadWindow, text="Download Finished", font=("yardman", 40), bg="#CCFFF7")
+            self.downloadFinished.grid(pady=(150, 0))
+
+            self.downloadFileName = Label(self.downloadWindow, text=self.yt.title , font=("Small fonts", 30))
+            self.downloadFileName.grid(pady=(50, 0))
+
+            MB = float("%0.2f"% (self.maxFileSize/1000000))
+
+            self.downloadedFileSize = Label(self.downloadWindow, text=str(f"{MB} MB"), font=("Agency FB", 30))
+            self.downloadedFileSize.grid(pady=(50, 0))
 
 if __name__=="__main__":
     window = Tk()
