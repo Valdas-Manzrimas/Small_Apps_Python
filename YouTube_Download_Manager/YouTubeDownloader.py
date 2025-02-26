@@ -1,4 +1,4 @@
-from pytube import YouTube
+from pytubefix import YouTube
 from tkinter import filedialog
 from tkinter import ttk
 from tkinter import *
@@ -63,8 +63,8 @@ class Application:
         self.newWindow = Toplevel(self.root)
         self.root.withdraw()
         self.newWindow.state("zoomed")
-        self.newWindow.create_rowconfigure(0, weight=0)
-        self.newWindow.create_columnconfigure(0, weight=1)
+        self.newWindow.grid_rowconfigure(0, weight=0)
+        self.newWindow.grid_columnconfigure(0, weight=1)
 
         self.app = SecondApp(self.newWindow, self.YouTubeEntryVar.get(), self.FolderName, self.ChoicesVar.get())
 
@@ -94,6 +94,16 @@ class SecondApp:
         if (choices=="2"):
             self.video_type = self.yt.streams.first()
             self.maxFileSize = self.video_type.filesize
+
+        self.loadingLabel = Label(self.downloadWindow, text="Downloading...", font=("Small fonts", 40), bg="#CCFFF7")
+        self.loadingLabel.grid(pady=(100, 0 ))
+        
+        self.loadingPercent = Label(self.downloadWindow, text="0", font=("Agency FB", 40), fg='green')
+        self.loadingPercent.grid(pady=(50, 0))
+
+        self.progressBar = ttk.Progressbar(self.downloadWindow, length=500, orient='horizontal', mode='indeterminate')
+        self.progressBar.grid(pady=(50, 0))
+        self.progressBar.start()
 
             
 
