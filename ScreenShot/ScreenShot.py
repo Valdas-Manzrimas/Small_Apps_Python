@@ -11,6 +11,44 @@ except ImportError:
     "Install it by typing 'pip install PIL' in the command prompt")
     sys.exit(1)
 
+def main(url, w, h):
+    global VIEWPORT_SIZE, url, SCREENSHOT_PATH
+    URL = url
+    VIEWPORT_SIZE = (int(w), int(h))
+    SCREENSHOT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "screenshot.png")
+
+    check_versions()
+    sys.excepthook = cef.ExceptHook()  # To shutdown all CEF processes on error
+
+    if os.path.exists(SCREENSHOT_PATH):
+        print("Remove old screenshot")
+        os.remove(SCREENSHOT_PATH)
+
+    command_line_args()
+
+    setting = {
+        "windowless_rendering_enabled": True
+    }
+
+    switches = {
+        "disable-gpu": "",
+        "disable-gpu-compositing": "",
+        "enable-begin-frame-scheduling": "",
+        "disable-surfaces": ""    }
+    
+    browser_settings = {
+        "windowless_frame_rate": 30,
+    }
+
+    cef.Initialize(settings=setting, 
+                   switches=switches)
+                   
+    create_browser(browser_settings)
+    cef.MessageLoop()
+    cef.Shutdown()
+    print("Opening your screenshot with the default application")
+    open_with_default_app(SCREENSHOT_PATH)
+
 
 
 
@@ -31,7 +69,7 @@ class Widgets:
 obj1 = Widgets("Enter website url: ", "https://www.google.com")
 obj2 = Widgets("Enter width: ", "1024")
 obj3 = Widgets("Enter height: ", "2048")
-root.bind("<Return>", lambda x: main(obj1.v.get()), int(obj2.v.get()), int(obj3.v.get()))) 
+root.bind("<Return>", lambda x: main(obj1.v.get()), int(obj2.v.get()), int(obj3.v.get()))
 lab4 = tk.Label(root, text="               ")
 lab4.pack()
 
