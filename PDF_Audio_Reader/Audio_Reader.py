@@ -1,16 +1,11 @@
-import PyPDF2
+import pyttsx3
 
-fileobject = open('abc.pdf', 'rb')
+engine_obj = pyttsx3.init()
 
-pdfFileReader = PyPDF2.PdfReader(fileobject)
+engine_obj.setProperty('rate', 150)
+engine_obj.setProperty('voice', 'f1')
 
-exctractedText = ""
+engine_obj.say("Hello World")
 
-for pageNum in range((len(pdfFileReader.pages))):
-    pdfPageObj = pdfFileReader.pages[pageNum]
+engine_obj.runAndWait()
 
-    exctractedText += pdfPageObj.extract_text()
-
-fileobject.close()
-
-print(exctractedText)
