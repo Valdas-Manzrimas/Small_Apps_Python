@@ -58,7 +58,7 @@ def check_versions():
     assert cef.__version__>="57.0", "CEF Python v57.0+ required to run this example"
 
 def command_line_args():
-    if Len(sys.argv) == 4:
+    if len(sys.argv) == 4:
         url = sys.argv[1]
         width = int(sys.argv[2])
         height = int(sys.argv[3])
