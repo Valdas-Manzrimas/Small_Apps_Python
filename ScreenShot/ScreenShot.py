@@ -100,7 +100,21 @@ def save_screenshot(browser):
     image = Image.frombytes("RGBA", VIEWPORT_SIZE, buffer_string, "raw", "RGBA", 0, 1)
     image.save(SCREENSHOT_PATH, "PNG")
     print("Saved screenshot to : {path}".format(path=SCREENSHOT_PATH))
-    
+
+
+def open_with_default_app(path):
+    if sys.platform.startswith("darwin"):
+        subprocess.call(("open", path))
+    elif os.name == "nt":
+        os.startfile(path)
+    elif os.name == "posix":
+        subprocess.call(("xdg-open", path)) 
+
+def exit_app(browser):
+    print("Closing browser and exiting application" )
+    browser.CloseBrowser()
+    cef.QuitMessageLoop()
+
 
 import tkinter as tk
 
