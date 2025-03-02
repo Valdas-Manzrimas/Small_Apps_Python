@@ -57,7 +57,27 @@ def check_versions():
     print("Python {ver} {arch}".format(ver=platform.python_version(), arch=platform.architecture()[0]))
     assert cef.__version__>="57.0", "CEF Python v57.0+ required to run this example"
 
-
+def command_line_args():
+    if Len(sys.argv) == 4:
+        url = sys.argv[1]
+        width = int(sys.argv[2])
+        height = int(sys.argv[3])
+        if url.startswith("http://") or url.startswith("https://"):
+            global URL
+            url = URL
+        else:
+            print("Error: Invalid URL entered")
+            sys.exit(1)
+        if width > 0 and height > 0:
+            global VIEWPORT_SIZE
+            VIEWPORT_SIZE = (width, height)
+        else:
+            print("Error: Invalid width or height entered")
+            sys.exit(1)
+    elif len(sys.argv) > 1:
+        print("Error: Expected arguments not received"
+        "Usage: python screenshot.py <url> <width> <height>")
+        sys.exit(1)
 
 import tkinter as tk
 
