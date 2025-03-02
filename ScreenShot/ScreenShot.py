@@ -12,7 +12,7 @@ except ImportError:
     sys.exit(1)
 
 def main(url, w, h):
-    global VIEWPORT_SIZE, url, SCREENSHOT_PATH
+    global VIEWPORT_SIZE, URL, SCREENSHOT_PATH
     URL = url
     VIEWPORT_SIZE = (int(w), int(h))
     SCREENSHOT_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), "screenshot.png")
@@ -64,7 +64,7 @@ def command_line_args():
         height = int(sys.argv[3])
         if url.startswith("http://") or url.startswith("https://"):
             global URL
-            url = URL
+            URL = url
         else:
             print("Error: Invalid URL entered")
             sys.exit(1)
@@ -78,6 +78,19 @@ def command_line_args():
         print("Error: Expected arguments not received"
         "Usage: python screenshot.py <url> <width> <height>")
         sys.exit(1)
+
+def create_browser(settings):
+    global VIEWPORT_SIZE, URL
+    parent_window_handle = 0
+    window_info = cef.WindowInfo()
+    window_info.SetAsOffscreen(parent_window_handle)
+    print("Viewport size: {size}".format(size=str(VIEWPORT_SIZE))) 
+    print("Loading URL: {url}".format(url=URL))
+    browser = cef.CreateBrowserSync(window_info=window_info, settings=settings, url=URL)
+    browser.SetClientHandler(LoadHandler())
+    browser.SetClientHandler(RenderHandler())
+    browser.SendFocusEvent(True)
+    browser.WasResized()
 
 import tkinter as tk
 
