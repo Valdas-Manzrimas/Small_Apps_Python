@@ -52,7 +52,8 @@ class ScreenshotApp(QWidget):
 
         # Create hidden browser widget
         self.browser = QWebEngineView(self)
-        self.browser.hide()  # Keep browser hidden
+        self.browser.setGeometry(-1000, -1000, width, height)  # Position it off-screen
+        self.browser.show()  # Show it to ensure rendering occurs
         self.browser.resize(width, height)
         self.browser.load(QUrl(url))
 
@@ -61,27 +62,25 @@ class ScreenshotApp(QWidget):
     def on_load_finished(self, ok):
         if ok:
             print("Page loaded successfully")
-            # Ensure browser is rendered before capture
-            QTimer.singleShot(3000, self.force_repaint)
+            # Wait longer to ensure the page is fully rendered
+            QTimer.singleShot(5000, self.force_repaint)  # Increase the wait time
         else:
             print("Failed to load URL")
 
     def force_repaint(self):
-        """Force browser repaint before capturing"""
-        self.browser.page().runJavaScript("""
-            requestAnimationFrame(() => {
-                document.body.style.visibility = 'visible';
-            });
-        """)
-        QTimer.singleShot(1000, self.save_screenshot)
+        # No need for additional JavaScript if the page is already rendered
+        QTimer.singleShot(1000, self.save_screenshot)  # Wait before saving
 
     def save_screenshot(self):
         # Capture only the browser content
         pixmap = QPixmap(self.browser.size())
         self.browser.render(pixmap)
-        pixmap.save("screenshot.png", "PNG")
-        print("Screenshot saved successfully")
-        self.open_with_default_app("screenshot.png")
+        save_path = os.path.join(os.getcwd(), "screenshot.png")
+        if pixmap.save(save_path, "PNG"):
+            print("Screenshot saved successfully")
+            self.open_with_default_app(save_path)
+        else:
+            print("Failed to save screenshot")
         self.browser.deleteLater()
 
     def open_with_default_app(self, path):
