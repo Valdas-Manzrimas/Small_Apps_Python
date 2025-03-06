@@ -1,5 +1,7 @@
 from tkinter import *
+from tkinter import filedialog
 from pygame import mixer
+import os
 
 window = Tk()
 
@@ -8,12 +10,19 @@ mixer.init()
 window.geometry("300x300")
 window.title("Music Player")
 
+def browse_file():
+    global fileName
+    fileName = ""
+    fileName = filedialog.askopenfilename(initialdir=f"{os.path.expanduser('~')}/Music")
+
+
 menu_bar = Menu(window)
 window.config(menu=menu_bar)
 
 sub_menu = Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="File", menu=sub_menu)
-sub_menu.add_command(label="Open")
+
+sub_menu.add_command(label="Open", command=browse_file)
 sub_menu.add_separator()
 sub_menu.add_command(label="Exit", command=window.quit)
 
@@ -21,9 +30,11 @@ txt_label = Label(window, text="Music Player", pady=10, font=("Arial", 20))
 txt_label.pack()
 
 def play_action():
-    mixer.music.load('play.mp3')
-    mixer.music.play()
-
+    try:
+        mixer.music.load(fileName)
+        mixer.music.play()
+    except:
+        print("Error on music play")
 def stop_action():
     mixer.music.stop()
 
