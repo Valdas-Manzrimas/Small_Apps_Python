@@ -15,6 +15,7 @@ def browse_file():
     global fileName
     fileName = ""
     fileName = filedialog.askopenfilename(initialdir=f"{os.path.expanduser('~')}/Music")
+    statusbar['text'] = fileName
 
 
 menu_bar = Menu(window)
@@ -38,14 +39,17 @@ def play_action():
         try:
             mixer.music.load(fileName)
             mixer.music.play()
+            statusbar['text'] = fileName
         except:
             print("Error on music play")
             messagebox.showerror("Error", "Dile not found")
     else: 
         mixer.music.unpause()
-        
+        statusbar['text'] = fileName
+
 def stop_action():
     mixer.music.stop()
+    statusbar['text'] = 'Stopped'
 
 def set_volume(value):
     volume = int(value) / 100
@@ -55,6 +59,11 @@ def pause_action():
     global paused
     paused = True
     mixer.music.pause()
+    statusbar['text'] = 'Paused'
+
+
+def rewind_action():
+    play_action()
 
 button_frame = Frame(window)
 button_frame.pack(padx=40)
@@ -75,7 +84,20 @@ scale = Scale(window, from_=0, to=100, orient=HORIZONTAL, command=set_volume)
 scale.set(70)
 scale.pack()
 
- 
+button_frame2 = Frame(window)
+button_frame2.pack(padx=40)
+
+rewind_img = PhotoImage(file='rewind.png')
+rewind_btn = Button(button_frame2, image=rewind_img, command=rewind_action)
+rewind_btn.pack(side=LEFT, padx=(10, 20))
+
+# forward_img = PhotoImage(file='forward.png')
+# forward_btn = Button(button_frame2, image=forward_img, command=forward_action)
+# forward_btn.pack(side=LEFT, padx=(10, 20))
+
+statusbar = Label(window, text="Enjoy :)", bd=1, relief=SUNKEN, anchor=W)
+statusbar.pack(side=BOTTOM, fill=X)
+
 
 
 
