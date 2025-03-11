@@ -18,13 +18,79 @@ entry.grid(row=0, columnspan=15)
 varRow = 1
 varColumn = 0
 
+def leftKey(event):
+    if curBtn == [-1, -1]:
+        curBtn[:] = [0,0]
+        buttonL[0][0].configure(highlightbackground='red')
+    elif curBtn[0] == 4:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [0, 10]
+        buttonL[0][10].configure(highlightbackground='red')
+    else:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [curBtn[0], (curBtn[1]-1)%11]
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    buttonL[curBtn[0]][curBtn[1]].focus_set()
+    
+
+def rightKey(event):
+    if curBtn == [-1, -1]:
+        curBtn[:] = [0,0]
+        buttonL[0][0].configure(highlightbackground='red')
+    elif curBtn[0] == 4:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [0, 0]
+        buttonL[0][0].configure(highlightbackground='red')
+    else:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [curBtn[0], (curBtn[1]+1)%11]
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    buttonL[curBtn[0]][curBtn[1]].focus_set()
+
+def upKey(event):
+    if curBtn == [-1, -1]:
+        curBtn[:] = [0,0]
+        buttonL[0][0].configure(highlightbackground='red')
+    elif curBtn[0] == 0:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]-1)%5, 0] 
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    elif curBtn[0] == 4:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]-1)%5, 5]
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    else:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]-1)%5, curBtn[1]]
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    buttonL[curBtn[0]][curBtn[1]].focus_set()
+
+def downKey(event):
+    if curBtn == [-1, -1]:
+        curBtn[:] = [0,0]
+        buttonL[0][0].configure(highlightbackground='red')
+    elif curBtn[0] == 3:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]+1)%5, 0] 
+        buttonL[curBtn[0]][curBtn[1]%11].configure(highlightbackground='red')
+    elif curBtn[0] == 4:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]+1)%5, 5]
+        buttonL[curBtn[0]][curBtn[1]%11].configure(highlightbackground='red')
+    else:
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        curBtn[:] = [(curBtn[0]+1)%5, curBtn[1]]
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+    buttonL[curBtn[0]][curBtn[1]].focus_set()
+
+
 def select(value, x, y):
     if curBtn != [-1, -1]:
-        buttonL[curBtn[0]][curBtn[1]].config(highlightbackground='red')
-        buttonL[curBtn[0]][curBtn[1]].config(highlightcolor='red')
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightbackground='red')
+        buttonL[curBtn[0]][curBtn[1]].configure(highlightcolor='red')
     curBtn[:] = [x,y]
-    buttonL[x][y].config(highlightbackground='red')
-    buttonL[x][y].config(highlightcolor='red')
+    buttonL[x][y].configure(highlightbackground='red')
+    buttonL[x][y].configure(highlightcolor='red')
 
     if value == "DEL":
         input_val = entry.get("1.0", "end-2c")
@@ -61,6 +127,12 @@ for button in keys:
         buttonL.append([])
 
 
+Keyboard.bind('<Left>', leftKey)
+Keyboard.bind('<Right>', rightKey)
+Keyboard.bind('<Up>', upKey)
+Keyboard.bind('<Down>', downKey)
+Keyboard.bind('<Return>', lambda _: select(keys[curBtn[0] * 11 + curBtn[1]], curBtn[0], curBtn[1]))
 
 Keyboard.mainloop()
                         
+
