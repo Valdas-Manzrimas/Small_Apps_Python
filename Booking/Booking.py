@@ -28,7 +28,7 @@ class Application(tk.Tk):
     def createWidgets(self):
         headingLabel = tk.Label(self, text="Cinema Booking", font=("Aries 12 bold"))
         headingLabel.grid(row=0, column=0, columnspan=5, padx=10, pady=10, sticky="w")
-        tkinter.ttk.Separator(self, orient="horizontal").grid(row=1, column=0, columnspan=5, sticky="w")
+        tkinter.ttk.Separator(self, orient="horizontal").grid(row=1, column=0, columnspan=5, sticky="ew")
 
         day = tk.Frame(self)
         tk.Label(day, text="_____", ).pack()
@@ -48,9 +48,19 @@ class Application(tk.Tk):
         self.movieCombo.bind('<<ComboboxSelected>>', self.createTimeButtons)
         self.movieCombo.set("Select Movie")
         self.movieCombo.grid(row=2, column=4, padx=(10, 0))
-        tkinter.ttk.Separator(self, orient="horizontal").grid(row=3, column=0, columnspan=5, sticky="w")
+        tkinter.ttk.Separator(self, orient="horizontal").grid(row=3, column=0, columnspan=5, sticky="ew")
 
+    def createTimeButtons(self, event=None):
+        tk.Label(self, text="Select Time Slot", font=("Aries 11 bold underline")).grid(row=4, column=2, columnspan=2, pady=5)
 
+        Time = tk.Frame(self)
+        Time.grid(row=5, column=0, columnspan=5)
+
+        for i in range(len(times)):
+            tk.Button(Time, text=times[i], command=self.seatSelection).grid(row=4+i//7, column=i%7)
+
+    
+            
 app = Application()
 
 app.mainloop()
