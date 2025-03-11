@@ -77,7 +77,7 @@ class Application(tk.Tk):
         w = tk.Canvas(window, width=500, height=15)
         w.create_rectangle(10,0, 490,10, fill="black")
         w.grid(row=3, column=0)
-        tk.screen(window, text="SCREEN").grid(row=4, column=0, pady=(0,10))
+        tk.Label(window, text="SCREEN").grid(row=4, column=0, pady=(0,10))
         seats = tk.Frame(window)
         seats.grid(row=5, column=0)
         seatList.clear()
@@ -105,9 +105,9 @@ class Application(tk.Tk):
 
     def bookSeats(self):
         for i in seatSelected:
-            seatList[i[0][i[1]]]['bg'] = 'red'
-            seatList[i[0][i[1]]]['activebackground'] = 'red'
-            seatList[i[0][i[1]]]['relief'] = 'sunken'
+            seatList[i[0]][i[1]]['bg'] = 'red'
+            seatList[i[0]][i[1]]['activebackground'] = 'red'
+            seatList[i[0]][i[1]]['relief'] = 'sunken'
 
 app = Application()
 
