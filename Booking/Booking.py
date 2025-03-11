@@ -59,8 +59,41 @@ class Application(tk.Tk):
         for i in range(len(times)):
             tk.Button(Time, text=times[i], command=self.seatSelection).grid(row=4+i//7, column=i%7)
 
-    
-            
+    def seatSelection(self):
+        window = tk.Toplevel()
+        window.title("Select Seats")
+        checkOutHeading = tk.Label(window, text="Seat(s) selection", font=("Aries 12"))
+        checkOutHeading.grid(row=0, column=0, columnspan=5, padx=10, pady=(10,0), sticky="w")
+
+        infer = tk.Frame(window)
+        infer.grid(row=1, column=0)
+        tk.Label(infer, text="BLUE = SELECTED", fg='blue').grid(row=0, column=0, padx=10)
+        tk.Label(infer, text="RED = BOOKED", fg='red').grid(row=0, column=1, padx=10)
+        tk.Label(infer, text="GREEN = AVAILABLE", fg='green').grid(row=0, column=2, padx=10)
+        
+        tkinter.ttk.Separator(window, orient="horizontal").grid(row=2, column=0, pady=(0,5), sticky="ew")
+
+        # Seat Canvas
+        w = tk.Canvas(window, width=500, height=15)
+        w.create_rectangle(10,0, 490,10, fill="black")
+        w.grid(row=3, column=0)
+        tk.screen(window, text="SCREEN").grid(row=4, column=0, pady=(0,10))
+        seats = tk.Frame(window)
+        seats.grid(row=5, column=0)
+        seatList.clear()
+        seatSelected.clear()
+
+        for i in range(4):
+            temp = []
+            for j in range(15):
+                btn = tk.Button(seats, bd=2, bg='green', activebackground="forestgreen", command=lambda x=i, y=j: self.selected(x,y))
+                temp.append(btn)
+                btn.grid(row=i, column=j, padx=5, pady=5)
+            seatList.append(temp)
+        
+        tk.Button(window, text="Book Seats", bg='black', fg='white', command=self.bookSeats).grid(row=6, column=0, pady=10)
+  
+
 app = Application()
 
 app.mainloop()
