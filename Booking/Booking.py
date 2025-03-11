@@ -92,7 +92,22 @@ class Application(tk.Tk):
             seatList.append(temp)
         
         tk.Button(window, text="Book Seats", bg='black', fg='white', command=self.bookSeats).grid(row=6, column=0, pady=10)
-  
+    
+    def selected(self, i, j):
+        if seatList[i][j]['bg'] == 'blue':
+            seatList[i][j]['bg'] = 'green'
+            seatList[i][j]['activebackground'] = 'forestGreen'
+            seatSelected.remove((i,j))
+            return
+        seatList[i][j]['bg'] = 'blue'
+        seatList[i][j]['activebackground'] = 'blue'
+        seatSelected.append((i,j))
+
+    def bookSeats(self):
+        for i in seatSelected:
+            seatList[i[0][i[1]]]['bg'] = 'red'
+            seatList[i[0][i[1]]]['activebackground'] = 'red'
+            seatList[i[0][i[1]]]['relief'] = 'sunken'
 
 app = Application()
 
