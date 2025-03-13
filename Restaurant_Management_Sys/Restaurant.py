@@ -121,6 +121,44 @@ class fBtn:
 fBtn(f1, 'TOTAL', ref, 7, 1)
 fBtn(f1, 'RESET', reset, 7, 2)
 fBtn(f1, 'EXIT', qexit, 7, 3)
+
+def price():
+    roo = Tk()
+    roo.geometry('600x220')
+    roo.title('Price List')
+    x = Frame(roo, bg='white', width=600, height=220, relief='sunken')
+    x.pack(side=TOP)
+
+    lblInfo = Label(x, font=('aria', 15, 'bold'), text='ITEM', fg='red', bd=5)
+    lblInfo.grid(row=0, column=0)
+    
+    lblInfo = Label(x, font=('aria', 15, 'bold'), text='_________', fg='black', anchor='w')
+    lblInfo.grid(row=0, column=2)
+
+    lblInfo = Label(x, font=('aria', 15, 'bold'), text='PRICE', fg='black', bd=5, anchor='w')
+    lblInfo.grid(row=0, column=5)
+
+    class priceLabel:
+        def __init__(self, text, row, column):
+            self.label = tk.Label(x, font=('aria', 15, 'bold'), text=text, fg='black', anchor='w')
+            self.label.grid(row=row, column=column)
+
+    priceLabel('Fries Meal', 1, 0)
+    priceLabel('25', 1, 5)
+    priceLabel('Lunch Meal', 2, 0)
+    priceLabel('40', 2, 5)
+    priceLabel('Burger Meal', 3, 0)
+    priceLabel('35', 3, 5)
+    priceLabel('Pizza Meal', 4, 0)
+    priceLabel('50', 4, 5)
+    priceLabel('Cheesburger', 5, 0)
+    priceLabel('30', 5, 5)
+    priceLabel('Drinks', 6, 0)
+    priceLabel('35', 6, 5)
+
+    roo.mainloop()
+
+
 fBtn(f1, 'PRICE', price, 7, 0)
 
         
