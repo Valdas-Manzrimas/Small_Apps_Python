@@ -23,6 +23,68 @@ def equals():
     text_input.set(sumup)
     operator = ''
 
+def ref():
+    # order number
+    
+    x = random.randint(12000, 50000)
+    randonRef = str(x)
+    rand.set(randonRef)
+
+    # values for each input
+    fries_meal = float(fries.get())
+    lunch_meal = float(lunch.get())
+    burger_meal = float(burger.get())
+    pizza_meal = float(pizza.get())
+    cheese_burger_meal = float(cheese_burger.get())
+    drinks_meal = float(drinks.get())
+
+    fries_cost = fries_meal*25
+    lunch_cost = lunch_meal*40
+    burger_cost = burger_meal*35
+    pizza_cost = pizza_meal*50
+    cheeseburger_cost = cheese_burger_meal*30
+    drink_cost = drinks_meal*35
+
+    meal_cost = "NOK. ", str('%.2f'% (fries_cost + lunch_cost + burger_cost + pizza_cost + cheeseburger_cost + drink_cost))
+
+    tax_amount = (fries_cost + lunch_cost + burger_cost + pizza_cost + cheeseburger_cost + drink_cost) * 0.33
+
+    total_cost = (fries_cost + lunch_cost + burger_cost + pizza_cost + cheeseburger_cost + drink_cost)
+
+    serv_charge = (fries_cost + lunch_cost + burger_cost + pizza_cost + cheeseburger_cost + drink_cost) / 99
+
+    service = "NOK. ", str('%.2f'% serv_charge) 
+
+    print(f"total_cost: {total_cost}, type: {type(total_cost)}")
+    print(f"meal_cost: {meal_cost}, type: {type(meal_cost)}")
+    print(f"serv_charge: {serv_charge}, type: {type(serv_charge)}")
+
+    overallCost = ("NOK.", str((total_cost) + (serv_charge)))    
+    paid_tax = "NOK. ", str('%.2f'% tax_amount)
+
+    service_charge.set(service)
+    cost.set(meal_cost)
+    tax.set(paid_tax)
+    subTotal.set(meal_cost)
+    total.set(overallCost)
+
+def qexit():
+    root.destroy()
+
+def reset():
+    rand = set('')
+    fries = set('')
+    lunch = set('')
+    burger = set('')
+    pizza = set('')
+    cheese_burger = set('')
+    drinks = set('')
+    subTotal = set('')
+    total = set('')
+    service_charge = set('')
+    tax = set('')
+    cost = set('')
+
 Tops = Frame(root, bg="black", width=1600, height=500, relief="sunken")
 Tops.pack(side=TOP)
 
@@ -89,13 +151,13 @@ fries = StringVar()
 lunch = StringVar()
 burger = StringVar()
 pizza = StringVar()
+cheese_burger = StringVar()
+drinks = StringVar()
 subTotal = StringVar()
 total = StringVar()
 service_charge = StringVar()
-drinks = StringVar()
 tax = StringVar()
 cost = StringVar()
-cheese_burger = StringVar()
 
 class InputRow:
     def __init__(self, parent, label_text, row, column, text_variable):
