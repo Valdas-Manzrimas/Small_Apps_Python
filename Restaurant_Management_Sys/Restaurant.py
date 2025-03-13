@@ -7,14 +7,21 @@ root = Tk()
 root.geometry("1600x700+0+0")
 root.title("Restaurnat management system")
 
-def btnclick(value):
-    print(f'Button clicked: {value}')  # Replace with your actual logic
+def btnclick(number):
+    global operator
+    operator = operator + str(number)
+    text_input.set(operator)
 
 def clear_display():
-    print('Display cleared')  # Replace with your actual logic
+    global operator
+    operator = ''
+    text_input.set('')
 
 def equals():
-    print('Calculate result')  # Replace with your actual logic
+    global operator
+    sumup = str(eval(operator))
+    text_input.set(sumup)
+    operator = ''
 
 Tops = Frame(root, bg="black", width=1600, height=500, relief="sunken")
 Tops.pack(side=TOP)
@@ -157,7 +164,6 @@ def price():
     priceLabel('35', 6, 5)
 
     roo.mainloop()
-
 
 fBtn(f1, 'PRICE', price, 7, 0)
 
