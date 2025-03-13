@@ -113,6 +113,16 @@ InputRow(f1, 'Tax: ', 3, 2, tax)
 InputRow(f1, 'Subtotal: ', 4, 2, subTotal)
 InputRow(f1, 'Total: ', 5, 2, total)
 
+class fBtn:
+    def __init__(self, parent, text, command, row, column):
+        self.fBtn = tk.Button(parent, text=text, command=command, bg='black', fg='white', bd=10, relief='raised', width=10, height=2, padx=16, pady=8, font=('Ariel', 16, 'bold'))
+        self.fBtn.grid(row=row, column=column)
 
+fBtn(f1, 'TOTAL', ref, 7, 1)
+fBtn(f1, 'RESET', reset, 7, 2)
+fBtn(f1, 'EXIT', qexit, 7, 3)
+fBtn(f1, 'PRICE', price, 7, 0)
+
+        
 
 root.mainloop()
