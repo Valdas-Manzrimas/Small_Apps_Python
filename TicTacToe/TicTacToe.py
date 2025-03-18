@@ -23,8 +23,16 @@ class tictactoe(tk.Tk):
             self.btns.append(row) 
         tk.Button(self, text="Restart", width=10, height=1, font=("Calibri", 15, "bold"), bg="black", fg="white", activebackground="grey", activeforeground="green", command=self.NewGame).grid(row=3, column=1)
 
-    
-
+    def Turn_Taken(self, x, y):
+        self.count += 1
+        if self.turn:
+            char = "X"
+            self.btns[x][y].config(text="X", bg="green", state="disabled")
+        else:
+            char = "O"
+            self.btns[x][y].config(text="O", bg="pink", state="disabled")
+        self.Check_Results(char)
+        self.turn = not self.turn
 
 
 tictactoe().mainloop()
