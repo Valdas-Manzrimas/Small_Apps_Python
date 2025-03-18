@@ -55,6 +55,18 @@ class tictactoe(tk.Tk):
         elif self.count == 9:
             self.Result("Draw") 
             
+    def Result(self, char):
+        top = tk.Toplevel(self)
+        if char == 'Draw':
+            top.title("No winner!")
+            topText = tk.Label(top, text="It is a Draw", font=("Calibri", 30, "bold"), fg='green')
+        else:
+            top.title("Winner!")
+            topText = tk.Label(top, text="Player " + char + " won!", font=("Barili", 30, "bold"), fg='green')
 
+        topBtn = tk.Button(top, text="New Game", width=10, height=1, font=("Calibri", 15, "bold"), bg="black", fg="white", activebackground="grey", activeforeground="green", command=self.NewGame)
+
+        topText.grid(row=0, column=0, padx=10, pady=10)
+        topBtn.grid(row=1, column=0)
 
 tictactoe().mainloop()
