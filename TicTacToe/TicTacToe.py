@@ -43,4 +43,18 @@ class tictactoe(tk.Tk):
 
         self.Board()
 
+    def Check_Results(self, char):
+           # horizontal
+        if(((self.btns[0][0]['text'] == char) and (self.btns[0][1]['text'] == char) and (self.btns[0][2]['text'] == char)) or ((self.btns[1][0]['text'] == char) and (self.btns[1][1]['text'] == char) and (self.btns[1][2]['text'] == char)) or ((self.btns[2][0]['text'] == char) and (self.btns[2][1]['text'] == char) and (self.btns[2][2]['text'] == char)) or 
+           # vertical
+           ((self.btns[0][0]['text'] == char) and (self.btns[1][0]['text'] == char) and (self.btns[2][0]['text'] == char)) or ((self.btns[0][1]['text'] == char) and (self.btns[1][1]['text'] == char) and (self.btns[2][1]['text'] == char)) or ((self.btns[0][2]['text'] == char) and (self.btns[1][2]['text'] == char) and (self.btns[2][2]['text'] == char)) or 
+           # diagnal
+           ((self.btns[0][0]['text'] == char) and (self.btns[1][1]['text'] == char) and (self.btns[2][2]['text'] == char)) or ((self.btns[0][2]['text'] == char) and (self.btns[1][1]['text'] == char) and (self.btns[2][0]['text'] == char))
+        ):
+            self.Result(char)
+        elif self.count == 9:
+            self.Result("Draw") 
+            
+
+
 tictactoe().mainloop()
