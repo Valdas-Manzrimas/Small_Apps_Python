@@ -4,7 +4,6 @@ class tictactoe(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Tic Tac Toe")
-        self.geometry("400x400")
         self.resizable(False, False)
 
         self.btns = []
@@ -27,12 +26,21 @@ class tictactoe(tk.Tk):
         self.count += 1
         if self.turn:
             char = "X"
-            self.btns[x][y].config(text="X", bg="green", state="disabled")
+            self.btns[x][y].config(text="X", bg="light green", state="disabled")
         else:
             char = "O"
             self.btns[x][y].config(text="O", bg="pink", state="disabled")
         self.Check_Results(char)
         self.turn = not self.turn
 
+    def NewGame(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        self.btns = []
+        self.turn = True
+        self.count = 0
+
+        self.Board()
 
 tictactoe().mainloop()
